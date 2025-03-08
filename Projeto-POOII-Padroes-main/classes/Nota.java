@@ -1,8 +1,5 @@
 package classes;
 
-package ProjetoPOOIIPadroes;
-
-
 public class Nota {
 private Double nota1;
 private Double nota2;
