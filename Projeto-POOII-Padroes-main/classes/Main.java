@@ -1,5 +1,7 @@
 package classes;
 
+package ProjetoPOOIIPadroes;
+
 import java.net.ProtocolFamily;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -45,14 +47,15 @@ public class Main {
 	      System.out.println("║     5 - Cadastrar um curso              ║");
 	      System.out.println("║     6 - Cadastrar uma turma             ║");
 	      System.out.println("║     7 - Cadastrar um coordenador        ║");
-	      System.out.println("║  8 - Atribuir notas aos estudantes      ║");
+	      System.out.println("║     8 - Atribuir notas aos estudantes   ║");
 	      System.out.println("║     9 - Mostrar a estatística           ║");
-	      System.out.println("║      10 - Lista de recuperação          ║");
-	      System.out.println("║          11 - Lista geral               ║");
-	      System.out.println("║           12 - Histórico                ║");
-	      System.out.println("║  13 - Exportar dados dos estudantes     ║");
-	      System.out.println("║  14 - Importar dados para o MEC         ║");
-	      System.out.println("║             0 - Sair                    ║");
+	      System.out.println("║     10 - Lista de recuperação           ║");
+	      System.out.println("║     11 - Lista geral                    ║");
+	      System.out.println("║     12 - Histórico                      ║");
+	      System.out.println("║     13 - Exportar dados dos estudante   ║");
+	      System.out.println("║     14 - Importar dados para o MEC      ║");
+	      System.out.println("║     15 - Alterar estado do aluno        ║");
+	      System.out.println("║                0 - Sair                 ║");
 	      System.out.println("╚═════════════════════════════════════════╝");
 	      System.out.print("Opção: ");
 	      opcao = entrada.nextInt(); 
@@ -71,9 +74,10 @@ public class Main {
 	        case 11: exibirListaGeral(); break;
 	        case 12: exibirHistorico(); break;
 	        case 13: System.out.println(exportarDadosEstudante()); break;
-	        case 14: importDadosEstudanteMEC(); break;
-	        case 0: System.out.println("Saindo..."); break;
-	        default: System.out.println("Opção inválida!");
+	        case 14: importDadosEstudanteMEC(); break; 
+	        case 15: alterarEstadoAluno(); break;
+            case 0: System.out.println("Saindo..."); break;
+            default: System.out.println("Opção inválida!");
 	      }
 	    } while (opcao != 0);
 	  }
@@ -87,7 +91,11 @@ public class Main {
 	      System.out.println("║     2 - Mostrar a estatística           ║");
 	      System.out.println("║      3 - Lista de recuperação           ║");
 	      System.out.println("║           4 - Histórico                 ║");
-	      System.out.println("║             0 - Sair                    ║");
+	      System.out.println("║    5 - Listar Cursos e Turmas           ║"); 
+	      System.out.println("║    6 - Exportar dados dos estudantes    ║"); 
+	      System.out.println("║    7 - Importar dados para o MEC        ║"); 
+	      System.out.println("║    8 - Vincular estudantes a turmas     ║"); 
+	      System.out.println("║                0 - Sair                 ║");
 	      System.out.println("╚═════════════════════════════════════════╝");
 	      System.out.print("Opção: ");
 	      opcao = entrada.nextInt(); 
@@ -97,9 +105,13 @@ public class Main {
 	        case 2: mostrarEstatistica(); break;
 	        case 3: exibirListaRecuperacao(); break;
 	        case 4: exibirHistorico(); break;
-	        case 0: System.out.println("Saindo..."); break;
-	        default: System.out.println("Opção inválida!");
-	      }
+	        case 5: exibirListaGeral(); break; 
+            case 6: System.out.println(exportarDadosEstudante()); break; 
+            case 7: importDadosEstudanteMEC(); break; 
+            case 8: vincularEstudanteTurma(); break;
+            case 0: System.out.println("Saindo..."); break;
+            default: System.out.println("Opção inválida!");
+        }
 	    } while (opcao != 0);
 	  }
 
@@ -138,6 +150,7 @@ public class Main {
 
 
 	public static void cadastrarNotas(){
+		
 	   System.out.println(" ---- Cadastrar Notas ----");
 	   
 	   System.out.println("Selecione a turma");
@@ -150,6 +163,7 @@ public class Main {
 
 	    if (escolhaTurma < 0 || escolhaTurma > db.getTurmas().size()-1) {
 	        System.out.println("Escolha inválida.");
+	        
 	        return;
 	    }
 
@@ -320,18 +334,19 @@ public class Main {
 
 
 	public static void cadastrarCurso() {
+        System.out.println(" ---- Cadastrar Curso ----");
+        Curso curso = new Curso();
+        entrada.nextLine(); 
 
-	  System.out.println(" ---- Cadastrar Curso ----");
-	  Curso curso = new Curso();
+        System.out.print("Informe o nome do curso: ");
+        curso.setNomeCurso(entrada.nextLine());
 
-	  System.out.print("Informe o nome do curso: ");
-	  curso.setNomeCurso(entrada.nextLine());
+        System.out.print("Informe a quantidade de semestres: ");
+        curso.setQtdSemestre(entrada.nextLine());
 
-	  System.out.print("Informe a quantidade de semestres: ");
-	  curso.setQtdSemestre(entrada.nextLine());
-
-	  System.out.println("Curso cadastrado com sucesso!");
-	}
+        db.getCursos().add(curso);
+        System.out.println("Curso cadastrado com sucesso!");
+    }
 
 	public static void cadastrarAluno() {
 
@@ -379,7 +394,8 @@ public class Main {
 	  adapter.exportAndImportData(data);
 	}
 
-
+	
+	
 	public static void vincularEstudanteTurma(){
 
 	  System.out.println(" ---- Vincular Estudante a Turma ----");
@@ -416,32 +432,73 @@ public class Main {
 	  }
 	}
 
-	public static void cadastrarTurma(){ 
-	  System.out.println(" ---- Cadastrar Turma ----");
-	  Turma turma = new Turma();
+	 public static void cadastrarTurma() {
+	        System.out.println(" ---- Cadastrar Turma ----");
+	        Turma turma = new Turma();
+	        entrada.nextLine(); 
 
-	  System.out.print("Informe identificação: ");
-	  turma.setIdentificacao(entrada.nextLine());
+	        System.out.print("Informe a identificação: ");
+	        turma.setIdentificacao(entrada.nextLine());
 
-	  System.out.print("Informe o semestre: ");
-	  turma.setSemestre(entrada.nextLine());
+	        System.out.print("Informe o semestre: ");
+	        turma.setSemestre(entrada.nextLine());
 
-	  System.out.print("Escolha o curso para vinculá-lo como coordenador: ");
-	  for (int i = 0; i < db.getCursos().size(); i++) {
-	    System.out.printf("%d - %s\n", i + 1, db.getCursos().get(i).getNomeCurso());
-	  }
-	  int escolhaCurso = entrada.nextInt();
+	        System.out.print("Escolha o curso para vincular à turma: ");
+	        for (int i = 0; i < db.getCursos().size(); i++) {
+	            System.out.printf("%d - %s\n", i + 1, db.getCursos().get(i).getNomeCurso());
+	        }
+	        int escolhaCurso = entrada.nextInt();
 
-	  if (escolhaCurso < 0 || escolhaCurso > db.getCursos().size()-1) {
-	      System.out.println("Escolha inválida.");
-	      return;
-	  }
+	        if (escolhaCurso < 1 || escolhaCurso > db.getCursos().size()) {
+	            System.out.println("Escolha inválida.");
+	            return;
+	        }
 
-	  turma.setCurso( db.getCursos().get(escolhaCurso));
+	        turma.setCurso(db.getCursos().get(escolhaCurso - 1));
+	        db.getTurmas().add(turma);
+	        System.out.println("Turma cadastrada com sucesso!");
+	    }
 
-	  System.out.println("Turma cadastrada com sucesso!");
-	}
 
+	 public static void alterarEstadoAluno() {
+		    System.out.println("---- Alterar Estado do Aluno ----");
+
+		    
+		    System.out.println("Selecione a turma:");
+		    for (int i = 0; i < db.getTurmas().size(); i++) {
+		        System.out.println(i + " - " + db.getTurmas().get(i).getIdentificacao());
+		    }
+		    int escolhaTurma = entrada.nextInt();
+
+		   
+		    System.out.println("Selecione o aluno:");
+		    Turma turma = db.getTurmas().get(escolhaTurma);
+		    for (int i = 0; i < turma.getAlunosTurma().size(); i++) {
+		        System.out.println(i + " - " + turma.getAlunosTurma().get(i).getAluno().getNome());
+		    }
+		    int escolhaAluno = entrada.nextInt();
+
+		    AlunoTurma alunoTurma = turma.getAlunosTurma().get(escolhaAluno);
+		    System.out.println("Estado atual: " + alunoTurma.getEstado().getClass().getSimpleName());
+
+		    System.out.println("Novo estado:");
+		    System.out.println("1 - Ativo");
+		    System.out.println("2 - Recuperação");
+		    System.out.println("3 - Reprovado");
+		    int novoEstado = entrada.nextInt();
+
+		    switch (novoEstado) {
+		        case 1: alunoTurma.setEstado(new EstadoAtivo()); break;
+		        case 2: alunoTurma.setEstado(new EstadoRecuperacao()); break;
+		        case 3: alunoTurma.setEstado(new EstadoReprovado()); break;
+		        default: System.out.println("Opção inválida."); return;
+		    }
+
+		    System.out.println("Estado do aluno atualizado.");
+		}
+	
+	
+	
 	}
 	// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀//
 	//⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠛⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀//
@@ -461,3 +518,5 @@ public class Main {
 	//⠀⠀⠀⠀⠀⠀⠈⠳⣄⠀⢿⣧⠀⠀⠘⠷⠾⠷⣼⣅⣀⣀⠀⠀⠀⠀⠀⠀⠸⡅⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠏⠀⠀⠀⠀⠀⠀⠀//
 	//⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⡈⡿⣄⣀⣀⣀⣀⣀⣈⣳⣍⠉⠉⠛⢿⡛⢦⡼⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀//
 	//⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⠻⠶⠿⠿⠷⠷⠿⠿⠾⠶⠶⠶⠶⠿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀//
+
+
