@@ -1,7 +1,5 @@
 package classes;
 
-package ProjetoPOOIIPadroes;
-
 import java.net.ProtocolFamily;
 import java.util.ArrayList;
 import java.util.Scanner;
